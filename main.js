@@ -227,7 +227,8 @@ function addWord() {
     addWordInput.insertAfter(firstEmptySpace);
     firstEmptySpace.remove();
     addWordInput.show().find('input').val('').focus();
-    addWordButton.find('span').text("○");
+    addWordButton.find('.check-icon').show();
+    addWordButton.find('.plus-icon').hide();
     isAddingWord = true;
   } else {
     var wordContent = addWordInput.find('input').val();
@@ -244,7 +245,8 @@ function addWord() {
       .attr("data-word", wordContent)
       .html(lettersToHtml(wordContent));
     newWord.insertAfter(addWordInput);
-    addWordButton.find('span').text("+");
+    addWordButton.find('.plus-icon').show();
+    addWordButton.find('.check-icon').hide();
     addWordInput.hide();
     isAddingWord = false;
 
