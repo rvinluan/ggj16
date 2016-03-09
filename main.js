@@ -112,6 +112,8 @@ function init() {
     .on('click', '.word', function (e) {
       if(!$(this).hasClass('empty') && !isAddingWord) {
         takeWord(this);
+      } else if(isAddingWord) {
+        endAddWord();
       } else {
         addWord();
       }
@@ -197,6 +199,7 @@ function lettersToHtml(str) {
   return finalString;
 }
 
+//generate a random letter
 function draw(difficulty) {
   var letterSets = {
     easy: "rstlne",
@@ -207,6 +210,7 @@ function draw(difficulty) {
   return letters[Math.floor(Math.random()*letters.length)];
 }
 
+//when the plus button is clicked, add a random letter
 function addLetter() {
   if(letterlist.find('.empty').length <= 0) {
     return;
@@ -217,6 +221,10 @@ function addLetter() {
   }
 }
 
+//either:
+//show the form for inputting a word into the list
+//or
+//close the form and add the word
 function addWord() {
   if(!isAddingWord) {
     var firstEmptySpace = wordlist.find('.empty').first();
@@ -253,6 +261,7 @@ function addWord() {
   }
 }
 
+//close the form without adding a word to the word list
 function endAddWord() {
   if(wordlist.find('.word').length < 15) {
     word_template.clone().appendTo(wordlist);
@@ -262,6 +271,7 @@ function endAddWord() {
   isAddingWord = false;
 }
 
+//find all the letter in all the words
 function findMatchingLetters(ltr) {
   var words = wordlist.find('.word').not('.empty');
   var results = [];
@@ -281,6 +291,7 @@ function letterHighlight(ltr) {
   $(arr).addClass('highlighted');
 }
 
+//happens when you click a letter from  your hand.
 function playLetter(letterBlock) {
   var arr = findMatchingLetters($(letterBlock).text());
   if(arr.length <= 0) {
@@ -293,15 +304,7 @@ function playLetter(letterBlock) {
     var wordLength = parent.attr("data-word").length;
     var played = parent.find(".played");
     if(played.length == wordLength) {
-      parent.remove();
-      if(wordlist.find('.word').length < 15)
-        word_template.clone().appendTo(wordlist);
-      score += clearWordPoints;
-      scoreText.text(score);
-      timer += 10*1000;
-      if(timer >= maximumTimerLength) {
-        timer = maximumTimerLength;
-      }
+      scoreWord(parent);
     }
   }
   letterBlock.remove();
@@ -310,6 +313,23 @@ function playLetter(letterBlock) {
   scoreText.text(score);
 }
 
+function scoreWord(wordElem) {
+  wordElem.addClass("strikethrough");
+  wordElem.on("animationend webkitAnimationEnd", function(){
+    wordElem.remove();
+    console.log("what")
+    if(wordlist.find('.word').length < 15)
+      word_template.clone().appendTo(wordlist);
+    score += clearWordPoints;
+    scoreText.text(score);
+    timer += 10*1000;
+    if(timer >= maximumTimerLength) {
+      timer = maximumTimerLength;
+    }
+  })
+}
+
+//take the word's unplayed letters into your hand.
 function takeWord(wordElem) {
   var ltrs = $(wordElem).find('span').not('.played').not('.take-word');
   var emptyHandSpots = letterlist.find('.empty').length;
