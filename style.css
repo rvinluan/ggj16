@@ -10,7 +10,7 @@
 body {
     -webkit-font-smoothing: antialiased;
     margin: 0;
-    font: normal normal 70px/1 "Apercu", sans-serif;
+    font: normal normal 70px/1 "Apercu", "Poppins", sans-serif;
     text-transform: uppercase;
 }
 
@@ -100,7 +100,7 @@ body {
             margin-top: -0.55em;
             background: #555;
             transform-origin: center left;
-            animation: strikethrough 1s;
+            animation: strikethrough .5s;
         }
     .score {
         color: #EFEA81;
@@ -169,7 +169,7 @@ body {
         outline: none;
         border: none;
         border-bottom: 1px solid #333;
-        font: normal normal 70px/1 "Apercu", sans-serif;
+        font: normal normal 70px/1 "Apercu", "Poppins", sans-serif;
         color: #DBD676;
         text-transform: uppercase;
         overflow: visible;
