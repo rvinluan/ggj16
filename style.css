@@ -102,7 +102,7 @@ body {
             transform-origin: center left;
             animation: strikethrough .5s;
         }
-    .score {
+    .score-area {
         color: #EFEA81;
         position: absolute;
         width: 210px;
@@ -112,6 +112,33 @@ body {
         font-size: 50px;
         font-weight: bold;
         color: #555;
+    }
+    .score-area p {
+        margin-bottom: 18px;
+    }
+    .score-area ul {
+        padding: 0;
+        list-style-type: none;
+    }
+    .score-area li {
+        font-size: 18px;
+        color: #EFEA81;
+        margin-bottom: 3px;
+        opacity: 0;
+        transition: all .3s;
+        position: relative;
+        top: 10px;
+    }
+    .score-area li:before {
+        content: "+";
+    }
+    .score-area li.in-queue {
+        opacity: 1;
+        top: 0;
+    }
+    .score-area li.out-of-queue {
+        opacity: 0;
+        top: -10px;
     }
     .add-word {
         position: absolute;

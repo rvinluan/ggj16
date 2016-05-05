@@ -19,7 +19,8 @@ var stage = {
   score = 0,
   gameOver = false,
   dictionary = [],
-  timer = maximumTimerLength; //1m
+  timer = maximumTimerLength, //1m
+  scoreQueue = [];
 
 //jquery
 var wordlist = $('.word-list');
@@ -29,10 +30,12 @@ var addWordInput = $('.word-input');
 var addWordError = $('.word-input-error');
 var scoreText = $('.score');
 var takeWordIndicator = $('.take-word');
+var scoreArea = $('.score-queue');
 
 //templates
 var letter_template = $("<li>").addClass("letter empty");
 var word_template = $("<li>").addClass("word empty");
+var score_item_template = $("<li>").addClass("scoreItem");
 
 (function () {
   init();
@@ -309,19 +312,18 @@ function playLetter(letterBlock) {
   }
   letterBlock.remove();
   letter_template.clone().appendTo(letterlist);
-  score += arr.length;
-  scoreText.text(score);
+  addScoreToQueue(arr.length);
 }
 
 function scoreWord(wordElem) {
   wordElem.addClass("strikethrough");
   wordElem.on("animationend webkitAnimationEnd", function(){
     wordElem.remove();
-    console.log("what")
     if(wordlist.find('.word').length < 15)
       word_template.clone().appendTo(wordlist);
-    score += clearWordPoints;
-    scoreText.text(score);
+    //score queue
+    addScoreToQueue(clearWordPoints);
+    //add timer
     timer += 10*1000;
     if(timer >= maximumTimerLength) {
       timer = maximumTimerLength;
@@ -343,6 +345,25 @@ function takeWord(wordElem) {
   } else {
     //can't
   }
+}
+
+function addScoreToQueue(pts) {
+  var newScore = score_item_template.clone().text(pts);
+  scoreQueue.push(pts);
+  scoreArea.append(newScore);
+  setTimeout( () => {newScore.addClass("in-queue")} , 1);
+  setTimeout( processScoreQueue, 2000 );
+}
+
+function processScoreQueue() {
+  var pts = scoreQueue.shift();
+  var removed = scoreArea.find("li:first-child");
+  score += pts;
+  scoreText.text(score);
+  removed.addClass("out-of-queue");
+  removed.on("transitionend webkitTransitionend", function () {
+    $(this).remove();
+  });
 }
 
 function isValidWord(word) {
