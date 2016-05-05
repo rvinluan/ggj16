@@ -65,7 +65,7 @@ function init() {
   }
   for(var i = 0; i < startingHandSize; i++) {
     var replacing = letterlist.find('.empty').first();
-    replacing.removeClass("empty").text(draw("hard"));
+    replacing.removeClass("empty").text(draw("easy"));
   }
   initStage();
   scoreText.text(score);
@@ -172,12 +172,12 @@ function initStage() {
     dataType: 'text',
     success: function(data) {
       dictionary = data.split('\n');
-      // var shortDictionary = dictionary.filter(function (e) {
-      //   return e.length == minAllowedWordLength;
-      // })
+      var shortDictionary = dictionary.filter(function (e) {
+        return e.length == minAllowedWordLength;
+      })
       // for(var i = 0; i < startingWords; i++) {
       //   var replacing = wordlist.find('.empty').first();
-      //   var newWord = shortDictionary.randomIn();
+      //   var newWord = randomIn(shortDictionary);
       //   replacing
       //     .removeClass('empty loading')
       //     .attr("data-word", newWord)
