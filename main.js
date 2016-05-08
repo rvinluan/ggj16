@@ -9,7 +9,7 @@ var startingHandSize = 5,
   minAllowedWordLength = 3,
   startingWords = 5,
   clearWordPoints = 10,
-  maximumTimerLength = 1000*30; //1m
+  maximumTimerLength = 1000*10; //1m
 
 //globals
 var stage = {
@@ -21,6 +21,7 @@ var stage = {
   dictionary = [],
   timer = maximumTimerLength, //1m
   scoreQueue = [],
+  scoreCheck = null,
   screenList = ["main-menu", "gameplay", "game-over"],
   currentScreen = 0;
 
@@ -60,24 +61,10 @@ function tick(lastUpdate) {
 }
 
 function init() {
-  letterlist.empty();
-  wordlist.empty();
-  for(var i = 0; i < 15; i++) {
-    if(i < 10) {
-      letter_template.clone().appendTo(letterlist);
-    }
-    if(i < startingWords) {
-      word_template.clone().addClass('loading').appendTo(wordlist);
-    } else {
-      word_template.clone().appendTo(wordlist);
-    }
-  }
-  for(var i = 0; i < startingHandSize; i++) {
-    var replacing = letterlist.find('.empty').first();
-    replacing.removeClass("empty").text(draw("easy"));
-  }
-  initStage();
-  scoreText.text(score);
+  loadDictionary();
+  resetStage();
+  resetScore();
+  resetTimer();
 
   //main menu events
   $(document.body).on('keydown', function (e) {
@@ -93,10 +80,7 @@ function init() {
   $("#main-menu button").on('click', function () {
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
-    //start the timer!
-    requestAnimationFrame(function (e) {
-        tick(new Date().getTime());
-    });
+    resetTimer();
   })
 
   //gameplay events
@@ -174,37 +158,55 @@ function init() {
 
   //restart
   $("#game-over button").on('click', function () {
+    gameOver = false;
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
-    //restart the timer
-    timer = maximumTimerLength;
-    score = 0;
-    scoreQueue = [];
-    letterlist.empty();
-    wordlist.empty();
-    for(var i = 0; i < 15; i++) {
-      if(i < 10) {
-        letter_template.clone().appendTo(letterlist);
-      }
-      if(i < startingWords) {
-        word_template.clone().addClass('loading').appendTo(wordlist);
-      } else {
-        word_template.clone().appendTo(wordlist);
-      }
-    }
-    for(var i = 0; i < startingHandSize; i++) {
-      var replacing = letterlist.find('.empty').first();
-      replacing.removeClass("empty").text(draw("easy"));
-    }
-    initStage();
-    scoreText.text(score);
+    resetStage();
+    resetScore();
+    resetTimer();
   })
-
-  //kick off scoring
-  setInterval(processScoreQueue, 2000);
 }
 
-function initStageOld() {
+//reset functions
+function resetStage() {
+  letterlist.empty();
+  wordlist.empty();
+  stage.words = [];
+  for(var i = 0; i < 15; i++) {
+    if(i < 10) {
+      letter_template.clone().appendTo(letterlist);
+    }
+    if(i < startingWords) {
+      word_template.clone().addClass('loading').appendTo(wordlist);
+    } else {
+      word_template.clone().appendTo(wordlist);
+    }
+  }
+  for(var i = 0; i < startingHandSize; i++) {
+    var replacing = letterlist.find('.empty').first();
+    replacing.removeClass("empty").text(draw("easy"));
+  }
+  loadStageRandom();
+}
+
+function resetScore() {
+  score = 0;
+  scoreQueue = [];
+  scoreArea.empty();
+  scoreText.text(score);
+  clearInterval(scoreCheck);
+  scoreCheck = setInterval(processScoreQueue, 2000);
+}
+
+function resetTimer() {
+  timer = maximumTimerLength;
+  //start the timer!
+  requestAnimationFrame(function (e) {
+      tick(new Date().getTime());
+  });
+}
+
+function loadStageRandom() {
   $.getJSON({
     url: 'http://api.wordnik.com:80/v4/words.json/randomWords',
     data: {
@@ -229,7 +231,7 @@ function initStageOld() {
   })
 }
 
-function initStage() {
+function loadDictionary() {
   $.ajax('/words.txt', {
     dataType: 'text',
     success: function(data) {
@@ -237,15 +239,6 @@ function initStage() {
       var shortDictionary = dictionary.filter(function (e) {
         return e.length == minAllowedWordLength;
       })
-      // for(var i = 0; i < startingWords; i++) {
-      //   var replacing = wordlist.find('.empty').first();
-      //   var newWord = randomIn(shortDictionary);
-      //   replacing
-      //     .removeClass('empty loading')
-      //     .attr("data-word", newWord)
-      //     .html(lettersToHtml(newWord));
-      // }
-      initStageOld();
     }
   })
 }
