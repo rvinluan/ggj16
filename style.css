@@ -12,6 +12,11 @@ body {
     margin: 0;
     font: normal normal 70px/1 "Apercu", "Poppins", sans-serif;
     text-transform: uppercase;
+    position: relative;
+    background-color: #222;
+    color: #EFEA81;
+    width: 100vw;
+    overflow: hidden;
 }
 
 * {
@@ -22,6 +27,83 @@ body {
     -ms-user-select: none;       /* IE/Edge */
     user-select: none;           /* non-prefixed version, currently */
 }
+
+section {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    transition: left .5s;
+}
+
+body.main-menu #main-menu { left: 0; }
+body.main-menu #gameplay { left: 100vw; }
+body.main-menu #game-over { left: 200vw; }
+
+body.gameplay #main-menu { left: -100vw; }
+body.gameplay #gameplay { left: 0; }
+body.gameplay #game-over { left: 100vw; }
+
+body.game-over #main-menu { left: -200vw; }
+body.game-over #gameplay { left: -100vw; }
+body.game-over #game-over { left: 0; }
+
+
+/*
+main menu
+*/
+
+#main-menu .content,
+#game-over .content {
+    text-align: center;
+    height: 50vh;
+    margin: auto;
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0; right: 0;
+}
+
+#main-menu h1,
+#game-over h2 {
+    font-size: 150px;
+    letter-spacing: 7px;
+    margin: .4em 0;
+    position: relative;
+}
+
+#main-menu p,
+#game-over p {
+    font-size: 20px;
+    max-width: 15em;
+    margin: 0 auto;
+    margin-bottom: 2em;
+    font-family: Input;
+    text-transform: none;
+    line-height: 1.2;
+}
+
+#main-menu button,
+#game-over button {
+    background: transparent;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    padding: 10px 20px;
+    fong-size: 20px;
+    cursor: pointer;
+    color: #EFEA81;
+    border: 1px solid #EFEA81;
+}
+
+#main-menu button:hover,
+#game-over button:hover {
+    background: #EFEA81;
+    color: #222;
+}
+
+/*
+gameplay
+*/
 
 .timer {
     height: 3vh;
@@ -245,6 +327,7 @@ body {
     }
         .letter {
             background-color: #DBD676;
+            color: black;
             padding: 15px 30px;
             border-radius: 10px;
             margin: 10px;

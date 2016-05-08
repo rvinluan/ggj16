@@ -9,33 +9,49 @@
         <script src="jquery-2.2.3.min.js"></script>
         <link rel="stylesheet" href="style.css">
     </head>
-    <body>
-        <div class="timer">
-            <div class="timer-inner"></div>
-        </div>
-        <div class="stage">
-            <ul class="word-list">
-                <span class="take-word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M14.88 0h10.24v27.375H14.88z"/><path d="M.643 20.643l7.24-7.24L27.24 32.76 20 40z"/><path d="M20 40l-7.24-7.24 19.357-19.357 7.24 7.24z"/></svg></span>
-                <div class="word-input">
-                    <input type="text" class="word-input-form">
-                    <span class="word-input-error"></span>
-                </div>
-            </ul>
-            <div class="score-area">
-                <p class="score">120</p>
-                <ul class="score-queue">
-                </ul>
+    <body class="main-menu">
+        <section id="main-menu">
+            <div class="content">
+                <h1>The Words</h1>
+                <p>Welcome, contestant. We're excited to have you. Are you ready to begin?</p>
+                <button>I consent</button>                
             </div>
-            <button class="add-word">
-                <span class="plus-icon">+</span>
-                <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.5 39.5"><path d="M-35.12 0h10.24v27.375h-10.24z"/><path d="M-49.357 20.643l7.24-7.24L-22.76 32.76-30 40z"/><path d="M-30 40l-7.24-7.24 19.357-19.357 7.24 7.24z"/><g><path d="M7.266 12.874l15.51 15.51-7.266 7.265L0 20.14z"/><path d="M39.544 11.616L15.51 35.65l-7.265-7.266L32.278 4.35z"/></g></svg>
-            </button>
-        </div>
-        <div class="hand">
-            <ul class="letter-list">
-            </ul>
-            <button class="add-letter"><span>+</span></button>
-        </div>
+        </section>
+        <section id="gameplay">
+            <div class="timer">
+                <div class="timer-inner"></div>
+            </div>
+            <div class="stage">
+                <ul class="word-list">
+                    <span class="take-word"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><path d="M14.88 0h10.24v27.375H14.88z"/><path d="M.643 20.643l7.24-7.24L27.24 32.76 20 40z"/><path d="M20 40l-7.24-7.24 19.357-19.357 7.24 7.24z"/></svg></span>
+                    <div class="word-input">
+                        <input type="text" class="word-input-form">
+                        <span class="word-input-error"></span>
+                    </div>
+                </ul>
+                <div class="score-area">
+                    <p class="score">120</p>
+                    <ul class="score-queue">
+                    </ul>
+                </div>
+                <button class="add-word">
+                    <span class="plus-icon">+</span>
+                    <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.5 39.5"><path d="M-35.12 0h10.24v27.375h-10.24z"/><path d="M-49.357 20.643l7.24-7.24L-22.76 32.76-30 40z"/><path d="M-30 40l-7.24-7.24 19.357-19.357 7.24 7.24z"/><g><path d="M7.266 12.874l15.51 15.51-7.266 7.265L0 20.14z"/><path d="M39.544 11.616L15.51 35.65l-7.265-7.266L32.278 4.35z"/></g></svg>
+                </button>
+            </div>
+            <div class="hand">
+                <ul class="letter-list">
+                </ul>
+                <button class="add-letter"><span>+</span></button>
+            </div>
+        </section>
+        <section id="game-over">
+            <div class="content">            
+                <h2>Oh dear.</h2>
+                <p>You scored <span id="final-score">0</span> points.</p>
+                <button>Restart</button>                
+            </div>
+        </section>
         <script src="main.js"></script>
     </body>
 </html>

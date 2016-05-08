@@ -9,7 +9,7 @@ var startingHandSize = 5,
   minAllowedWordLength = 3,
   startingWords = 5,
   clearWordPoints = 10,
-  maximumTimerLength = 1000*60; //1m
+  maximumTimerLength = 1000*30; //1m
 
 //globals
 var stage = {
@@ -20,7 +20,9 @@ var stage = {
   gameOver = false,
   dictionary = [],
   timer = maximumTimerLength, //1m
-  scoreQueue = [];
+  scoreQueue = [],
+  screenList = ["main-menu", "gameplay", "game-over"],
+  currentScreen = 0;
 
 //jquery
 var wordlist = $('.word-list');
@@ -43,19 +45,23 @@ var score_item_template = $("<li>").addClass("scoreItem");
 
 function tick(lastUpdate) {
   var now = new Date().getTime();
-  //timer -= (now - lastUpdate);
+  timer -= (now - lastUpdate);
   var prop = timer / maximumTimerLength*100;
   if(timer <= 0 && !gameOver) {
-    alert("you lose");
+    // alert("you lose");
     gameOver = true;
+    endTheGame();
+  } else {
+    $('.timer-inner').width(prop + "%");
+    requestAnimationFrame(function () {
+      tick(now);
+    });
   }
-  $('.timer-inner').width(prop + "%");
-  requestAnimationFrame(function () {
-    tick(now);
-  });
 }
 
 function init() {
+  letterlist.empty();
+  wordlist.empty();
   for(var i = 0; i < 15; i++) {
     if(i < 10) {
       letter_template.clone().appendTo(letterlist);
@@ -73,7 +79,33 @@ function init() {
   initStage();
   scoreText.text(score);
 
-  //events
+  //main menu events
+  $(document.body).on('keydown', function (e) {
+    if(e.which == 187) {
+      currentScreen++;
+      if(currentScreen >= screenList.length) {
+        currentScreen = 0;
+      }
+      $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+    }
+  })
+
+  $("#main-menu button").on('click', function () {
+    currentScreen = 1;
+    $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+    //start the timer!
+    requestAnimationFrame(function (e) {
+        tick(new Date().getTime());
+    });
+  })
+
+  //gameplay events
+  $(document.body).on('keydown', function (e) {
+    //don't go back on backspace
+    if(e.which == 8) {
+      e.preventDefault();
+    }
+  })
   addWordButton.on('click', addWord);
   addWordInput.find('input')
     .on('keyup', function (e) {
@@ -139,6 +171,37 @@ function init() {
     .on('click', function (e) {
       addLetter();
     });
+
+  //restart
+  $("#game-over button").on('click', function () {
+    currentScreen = 1;
+    $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+    //restart the timer
+    timer = maximumTimerLength;
+    score = 0;
+    scoreQueue = [];
+    letterlist.empty();
+    wordlist.empty();
+    for(var i = 0; i < 15; i++) {
+      if(i < 10) {
+        letter_template.clone().appendTo(letterlist);
+      }
+      if(i < startingWords) {
+        word_template.clone().addClass('loading').appendTo(wordlist);
+      } else {
+        word_template.clone().appendTo(wordlist);
+      }
+    }
+    for(var i = 0; i < startingHandSize; i++) {
+      var replacing = letterlist.find('.empty').first();
+      replacing.removeClass("empty").text(draw("easy"));
+    }
+    initStage();
+    scoreText.text(score);
+  })
+
+  //kick off scoring
+  setInterval(processScoreQueue, 2000);
 }
 
 function initStageOld() {
@@ -162,10 +225,6 @@ function initStageOld() {
           .html(lettersToHtml(data[i].word));
         stage.words.push(data[i].word);
       }
-      //start the timer!
-      requestAnimationFrame(function (e) {
-          tick(new Date().getTime());
-      });
     }
   })
 }
@@ -269,7 +328,8 @@ function endAddWord() {
   if(wordlist.find('.word').length < 15) {
     word_template.clone().appendTo(wordlist);
   }
-  addWordButton.find('span').text("+");
+  addWordButton.find('.plus-icon').show();
+  addWordButton.find('.check-icon').hide();
   addWordInput.hide();
   isAddingWord = false;
 }
@@ -352,10 +412,14 @@ function addScoreToQueue(pts) {
   scoreQueue.push(pts);
   scoreArea.append(newScore);
   setTimeout( () => {newScore.addClass("in-queue")} , 1);
-  setTimeout( processScoreQueue, 2000 );
+  //these happen too much
+  // setTimeout( processScoreQueue, 2000 );
 }
 
 function processScoreQueue() {
+  if(scoreQueue.length == 0) {
+    return;
+  }
   var pts = scoreQueue.shift();
   var removed = scoreArea.find("li:first-child");
   score += pts;
@@ -396,4 +460,10 @@ function isValidWord(word) {
     ro.reason = "Not a word";
   }
   return ro;
+}
+
+function endTheGame() {
+  currentScreen = 2;
+  $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+  $("#final-score").text(score);
 }
