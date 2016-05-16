@@ -21,10 +21,9 @@ function Tutorializer() {
   }
 
   this.addStep = function(step) {
-    step.completed = false;
-    if(step.cede == undefined) {
-      step.cede = true;
-    }
+    // if(step.cede == undefined) {
+    //   step.cede = true;
+    // }
     this.steps.push(step);
   }
 
@@ -89,7 +88,6 @@ function Tutorializer() {
   this.completeStep = function(stepNo) {
     var s = this.steps[this.currentStep];
     $(document.body).trigger("tutorial:stepComplete:" + this.currentStep);
-    s.completed = true;
     if(s.callback)
       s.callback.call();
     if(!s.cede) {
