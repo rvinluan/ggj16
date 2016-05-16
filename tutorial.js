@@ -16,4 +16,7 @@ var stepArray = [
 ];
 t.addSteps(stepArray);
 
+t.allCompleteCallback = function () {
+  alert('hi');
+}
 t.startTutorial();
