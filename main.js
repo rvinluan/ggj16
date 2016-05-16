@@ -80,6 +80,7 @@ function init() {
   $("#main-menu button").on('click', function () {
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+    $(this).blur();
     resetTimer();
   })
 
@@ -161,6 +162,7 @@ function init() {
     gameOver = false;
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+    $(this).blur();
     resetStage();
     resetScore();
     resetTimer();
