@@ -89,7 +89,7 @@ main menu
     border-radius: 3px;
     display: inline-block;
     padding: 10px 20px;
-    fong-size: 20px;
+    font-size: 20px;
     cursor: pointer;
     color: #EFEA81;
     border: 1px solid #EFEA81;
@@ -365,3 +365,106 @@ ul {
     margin: 0;
     list-style-type: none;
 }
+
+/*
+
+TUTORIAL
+
+*/
+
+.tutorial-area {
+  position: absolute;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.tutorial-area.up {
+    background: rgba(0,0,0,0.7);
+    pointer-events: auto;
+}
+
+.message {
+  padding: 100px;
+  background-color: #EFEA81;
+  border: 1px solid #EFEA81;
+  border-radius: 5px;
+  width: 15em;
+  transition: height .1s .3s,
+    padding-top .1s .3s,
+    padding-bottom .1s .3s,
+    width .1s 0s,
+    background-color .3s .7s,
+    color .3s .7s,
+    padding-left .1s 0s,
+    padding-right .1s 0s;
+  position: relative;
+  font-family: Input;
+  font-size: 1rem;
+  text-transform: none;
+  color: black;
+}
+
+.message button {
+  opacity: 1;
+  transition: opacity .3s 1s;
+  background: none;
+  border: 1px solid black;
+  color: black;
+  position: absolute;
+  cursor: pointer;
+  padding: 5px 20px;
+  bottom: 15px;
+  right: 15px;
+}
+
+.message button:active,
+.message button:focus {
+  outline: none;
+}
+
+.message button:hover {
+  border: 1px solid black;
+  color: #EFEA81;
+  background-color: black;
+}
+
+.message.off {
+  background-color: transparent;
+  color: transparent;
+  height: 0;
+  width: 0;
+  padding: 0;
+  transition: height .1s .3s,
+    padding-top .1s .3s,
+    padding-bottom .1s .3s,
+    width .1s .7s,
+    background-color .3s 0s,
+    color .3s 0s,
+    padding-left .1s .7s,
+    padding-right .1s .7s;
+}
+
+.message.off button {
+  opacity: 0;
+  transition: opacity 0s 0s;
+}
+
+.message .blink {
+    animation: tutorial-message-blink 1s infinite;
+}
+
+@keyframes tutorial-message-blink {
+    0% { opacity: 1; }
+    49% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 0; }
+}
+

@@ -64,7 +64,6 @@ function init() {
   loadDictionary();
   resetStage();
   resetScore();
-  resetTimer();
 
   //main menu events
   $(document.body).on('keydown', function (e) {
