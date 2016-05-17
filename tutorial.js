@@ -2,7 +2,9 @@ var t = new Tutorializer();
 
 var stepArray = [
   {
+    delay: 1000,
     text: "Welcome, contestant.",
+    advanceText: "hello",
     cede: false
   },
   {
@@ -19,4 +21,4 @@ t.addSteps(stepArray);
 t.allCompleteCallback = function () {
   alert('hi');
 }
-t.startTutorial();
+// t.startTutorial();

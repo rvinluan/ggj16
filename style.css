@@ -391,13 +391,18 @@ TUTORIAL
     pointer-events: auto;
 }
 
+.tutorial-area.up .message {
+    display: block;
+}
+
 .message {
   padding: 100px;
   background-color: #EFEA81;
   border: 1px solid #EFEA81;
   border-radius: 5px;
   width: 15em;
-  transition: height .1s .3s,
+  max-height: 5rem;
+  transition: max-height .1s .3s,
     padding-top .1s .3s,
     padding-bottom .1s .3s,
     width .1s 0s,
@@ -439,10 +444,10 @@ TUTORIAL
 .message.off {
   background-color: transparent;
   color: transparent;
-  height: 0;
+  max-height: 0;
   width: 0;
   padding: 0;
-  transition: height .1s .3s,
+  transition: max-height .1s .3s,
     padding-top .1s .3s,
     padding-bottom .1s .3s,
     width .1s .7s,

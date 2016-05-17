@@ -8,8 +8,8 @@ function Tutorializer() {
   this.allCompleteCallback = null;
 
   function createMessageTemplate() {
-    var m = $("<div></div>").addClass("message");
-    m.append( $("<span></span>").addClass("message-text").text("test") );
+    var m = $("<div></div>").addClass("message off").css("display", "none");
+    m.append( $("<span></span>").addClass("message-text") );
     m.append( $("<span></span>").addClass("blink").text("_") );
     m.append( $("<button></button>").text("ok") );
     return m;
@@ -47,7 +47,7 @@ function Tutorializer() {
     this.bindEvents();
   }
 
-  this.openMessageContainer = function(messageText) {
+  this.openMessageContainer = function(messageText, advanceText) {
     function animateWords(t) {
       var msg = $('.message-text');
       msg.text("");
@@ -69,10 +69,12 @@ function Tutorializer() {
     }
     if(this.overlay.hasClass("up")) {
       animateWords(messageText);
+      this.overlay.find("button").text(advanceText);
     } else {
       this.overlay.addClass("up");
       this.overlay.find(".message").show().removeClass("off");
       animateWords(messageText);
+      this.overlay.find("button").text(advanceText);
     }
   }
 
@@ -90,7 +92,10 @@ function Tutorializer() {
       return;
     }
     var s = this.steps[this.currentStep];
-    this.openMessageContainer(s.text);
+    var d = s.delay ? s.delay : 0;
+    setTimeout(function () {
+      this.openMessageContainer(s.text, s.advanceText ? s.advanceText : "ok");
+    }.bind(this), d);
   }
 
   this.completeStep = function(stepNo) {

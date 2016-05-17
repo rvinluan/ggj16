@@ -80,7 +80,10 @@ function init() {
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
     $(this).blur();
-    resetTimer();
+    t.allCompleteCallback = function () {
+      resetTimer();
+    }
+    t.startTutorial();
   })
 
   //gameplay events
