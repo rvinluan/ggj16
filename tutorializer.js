@@ -6,6 +6,7 @@ function Tutorializer() {
   this.overlay = $("<div></div>").addClass("tutorial-area").appendTo(document.body);
   this.messageTemplate = createMessageTemplate();
   this.allCompleteCallback = null;
+  this.waiting = false;
 
   function createMessageTemplate() {
     var m = $("<div></div>").addClass("message off").css("display", "none");
@@ -24,6 +25,12 @@ function Tutorializer() {
       if(window.anim) {
         clearInterval(window.anim);
         this.overlay.find(".message-text").text(this.steps[this.currentStep].text);
+      }
+    }.bind(this));
+    $(document.body).on("tutorial:trigger", function (e, stepNo) {
+      if(this.waiting && stepNo >= this.currentStep) {
+        this.currentStep = stepNo;
+        this.beginStep(stepNo);
       }
     }.bind(this));
   }
@@ -91,8 +98,9 @@ function Tutorializer() {
       this.endTutorial();
       return;
     }
-    var s = this.steps[this.currentStep];
+    var s = this.steps[stepNo];
     var d = s.delay ? s.delay : 0;
+    this.waiting = false;
     setTimeout(function () {
       this.openMessageContainer(s.text, s.advanceText ? s.advanceText : "ok");
     }.bind(this), d);
@@ -107,6 +115,7 @@ function Tutorializer() {
       this.beginStep(++this.currentStep);
     } else {
       this.closeMessageContainer();
+      this.waiting = true;
     }
   }
 

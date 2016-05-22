@@ -7,7 +7,7 @@ var randomIn = function(arr) {
 var startingHandSize = 5,
   maxAllowedWordLength = 6,
   minAllowedWordLength = 3,
-  startingWords = 5,
+  startingWords = 2,
   clearWordPoints = 10,
   maximumTimerLength = 1000*10; //1m
 
@@ -92,6 +92,12 @@ function init() {
     if(e.which == 8) {
       e.preventDefault();
     }
+    //esc
+    if(e.which == 27) {
+      if(isAddingWord && !addWordInput.find('input').is(":focus")) {
+        endAddWord();
+      }
+    }
   })
   addWordButton.on('click', addWord);
   addWordInput.find('input')
@@ -114,6 +120,10 @@ function init() {
       } else if(e.which == 27) {
         //esc
         endAddWord();
+      } else if(e.which == 8) {
+        //backspace
+        //stop prop to prevent hitting the preventDefault that is on the body
+        e.stopPropagation();
       }
     })
     .on('blur', function (e) {
@@ -188,9 +198,18 @@ function resetStage() {
   }
   for(var i = 0; i < startingHandSize; i++) {
     var replacing = letterlist.find('.empty').first();
-    replacing.removeClass("empty").text(draw("easy"));
+    if(t.allComplete) {
+      replacing.removeClass("empty").text(draw("easy"));
+    } else {
+      //start with the letters S-T-A-R-T
+      replacing.removeClass("empty").text("start".split("")[i]);
+    }
   }
-  loadStageRandom();
+  if(t.allComplete) {
+    loadStageRandom();
+  } else {
+    loadStageTutorial();
+  }
 }
 
 function resetScore() {
@@ -233,6 +252,18 @@ function loadStageRandom() {
       }
     }
   })
+}
+
+function loadStageTutorial() {
+  var tutorialWords = 'star,diets,die,tied'.split(',');
+  for(var i = 0; i < tutorialWords.length; i++) {
+    var replacing = wordlist.find('.empty').first();
+    replacing
+      .removeClass('empty loading')
+      .attr("data-word", tutorialWords[i])
+      .html(lettersToHtml(tutorialWords[i]));
+    stage.words.push(tutorialWords[i]);
+  }
 }
 
 function loadDictionary() {
@@ -316,7 +347,10 @@ function addWord() {
     addWordButton.find('.check-icon').hide();
     addWordInput.hide();
     isAddingWord = false;
-
+    //tutorial trigger
+    if(!t.allComplete && t.waiting){
+      $(document.body).trigger("tutorial:trigger", 14);
+    }
   }
 }
 
@@ -370,6 +404,16 @@ function playLetter(letterBlock) {
   letterBlock.remove();
   letter_template.clone().appendTo(letterlist);
   addScoreToQueue(arr.length);
+
+  //tutorial trigger if appropriate
+  if(!t.allComplete && t.waiting){
+    if(score == 0) {
+      $(document.body).trigger("tutorial:trigger", 3);
+    } else {
+      $(document.body).trigger("tutorial:trigger", 5);
+    }
+  }
+
 }
 
 function scoreWord(wordElem) {
@@ -385,6 +429,16 @@ function scoreWord(wordElem) {
     if(timer >= maximumTimerLength) {
       timer = maximumTimerLength;
     }
+    //tutorial trigger
+    if(!t.allComplete && t.waiting){
+      console.log('strike!');
+      console.log(wordlist.find("li:not(.empty)").length);
+      if(wordlist.find("li:not(.empty)").length > 0) {
+        $(document.body).trigger("tutorial:trigger", 7);
+      } else {
+        $(document.body).trigger("tutorial:trigger", 11);
+      }
+    }
   })
 }
 
@@ -399,6 +453,9 @@ function takeWord(wordElem) {
     })
     wordElem.remove();
     word_template.clone().appendTo(wordlist);
+    if(!t.allComplete && t.waiting){
+      $(document.body).trigger("tutorial:trigger", 9);
+    }
   } else {
     //can't
   }
