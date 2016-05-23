@@ -64,7 +64,7 @@ main menu
 
 #main-menu h1,
 #game-over h2 {
-    font-size: 150px;
+    font-size: 100px;
     letter-spacing: 7px;
     margin: .4em 0;
     position: relative;
@@ -72,8 +72,8 @@ main menu
 
 #main-menu p,
 #game-over p {
-    font-size: 20px;
-    max-width: 15em;
+    font-size: 15px;
+    max-width: 25em;
     margin: 0 auto;
     margin-bottom: 2em;
     font-family: Input;
@@ -89,7 +89,7 @@ main menu
     border-radius: 3px;
     display: inline-block;
     padding: 10px 20px;
-    font-size: 20px;
+    font-size: 12px;
     cursor: pointer;
     color: #EFEA81;
     border: 1px solid #EFEA81;
@@ -146,7 +146,7 @@ gameplay
             cursor: pointer;
             box-sizing: border-box;
             white-space: nowrap;
-            font-size: 70px;
+            font-size: 45px;
         }
             .word span {
                 line-height: 1;
@@ -278,7 +278,7 @@ gameplay
         outline: none;
         border: none;
         border-bottom: 1px solid #333;
-        font: normal normal 70px/1 "Apercu", "Poppins", sans-serif;
+        font: normal normal 45px/1 "Apercu", "Poppins", sans-serif;
         color: #DBD676;
         text-transform: uppercase;
         overflow: visible;
