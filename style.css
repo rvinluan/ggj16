@@ -366,6 +366,10 @@ ul {
     list-style-type: none;
 }
 
+#new-high-score-text {
+  display: none;
+}
+
 /*
 
 TUTORIAL

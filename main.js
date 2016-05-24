@@ -9,7 +9,7 @@ var startingHandSize = 5,
   minAllowedWordLength = 3,
   startingWords = 4,
   clearWordPoints = 10,
-  maximumTimerLength = 1000*60; //1m
+  maximumTimerLength = 1000*5; //1m
 
 //globals
 var stage = {
@@ -530,8 +530,24 @@ function isValidWord(word) {
   return ro;
 }
 
+function resetGameOverScreen() {
+  $("#high-score-text").show();
+  $("#game-over h2").text("Oh Dear.");
+  $("#new-high-score-text").hide();
+}
+
 function endTheGame() {
+  resetGameOverScreen();
   currentScreen = 2;
+  var hs = parseInt(localStorage.getItem("high-score"), 10);
   $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+  if(score > hs || isNaN(hs)) {
+    localStorage.setItem("high-score", score);
+    $("#high-score-text").hide();
+    $("#game-over h2").text("Rejoice!");
+    $("#new-high-score-text").show();
+  } else {
+    $("#high-score").text(localStorage.getItem("high-score"));
+  }
   $("#final-score").text(score);
 }
