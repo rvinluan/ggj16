@@ -145,10 +145,11 @@ function init() {
       takeWordIndicator.hide();
     })
     .on('click', '.word', function (e) {
-      if(!$(this).hasClass('empty') && !isAddingWord) {
+      if(!$(this).hasClass('empty')) {
         takeWord(this);
-      } else if(isAddingWord) {
-        endAddWord();
+        if(isAddingWord) {
+          endAddWord();
+        }
       } else {
         addWord();
       }

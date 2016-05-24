@@ -62,6 +62,7 @@ function Tutorializer() {
     this.overlay.append(this.messageTemplate);
     this.bindEvents();
     this.beginStep(0);
+    $(document.body).addClass("tutorial-in-progress");
   }
 
   this.openMessageContainer = function(messageText, advanceText) {
@@ -133,6 +134,7 @@ function Tutorializer() {
     this.allComplete = true;
     this.closeMessageContainer();
     $(document.body).trigger("tutorial:allComplete");
+    $(document.body).removeClass("tutorial-in-progress").addClass("tutorial-complete");
     if(this.allCompleteCallback) {
       this.allCompleteCallback.call();
     }
