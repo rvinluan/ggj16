@@ -283,7 +283,7 @@ function loadStageTutorial() {
 }
 
 function loadDictionary() {
-  $.ajax('/words.txt', {
+  $.ajax('words.txt', {
     dataType: 'text',
     success: function(data) {
       dictionary = data.split('\n');
