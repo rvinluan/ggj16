@@ -7,7 +7,7 @@ var randomIn = function(arr) {
 var startingHandSize = 5,
   maxAllowedWordLength = 6,
   minAllowedWordLength = 3,
-  startingWords = 2,
+  startingWords = 4,
   clearWordPoints = 10,
   maximumTimerLength = 1000*10; //1m
 
@@ -100,8 +100,8 @@ function init() {
     }
   })
   addWordButton.on('click', addWord);
-  addWordInput.find('input')
-    .on('keyup', function (e) {
+  $('.word-list')
+    .on('keyup', 'input', function (e) {
       if($(this).val().length > maxAllowedWordLength) {
         $(this).addClass('invalid');
         console.log('invalid!');
@@ -112,11 +112,15 @@ function init() {
         }
       }
     })
-    .on('keydown', function(e){
+    .on('keydown', 'input', function(e){
       if(e.which == 13 && isAddingWord) {
         //enter key, and input is up
         addWord();
-        addWord();
+        console.log('enter key hit!');
+        console.log(t.allComplete);
+        if(t.allComplete) {
+          addWord();
+        }
       } else if(e.which == 27) {
         //esc
         endAddWord();
@@ -126,13 +130,12 @@ function init() {
         e.stopPropagation();
       }
     })
-    .on('blur', function (e) {
+    .on('blur', 'input', function (e) {
       var validity = isValidWord($(this).val());
       if(!validity.bool) {
-        //endAddWord();
+        // endAddWord();
       }
     })
-  $('.word-list')
     .on('mouseover', '.word', function (e) {
       if(!$(this).hasClass('empty')) {
         takeWordIndicator.appendTo(this).show();
@@ -184,7 +187,7 @@ function init() {
 //reset functions
 function resetStage() {
   letterlist.empty();
-  wordlist.empty();
+  wordlist.find(".word").remove();
   stage.words = [];
   for(var i = 0; i < 15; i++) {
     if(i < 10) {
@@ -210,6 +213,7 @@ function resetStage() {
   } else {
     loadStageTutorial();
   }
+  endAddWord();
 }
 
 function resetScore() {
@@ -431,8 +435,6 @@ function scoreWord(wordElem) {
     }
     //tutorial trigger
     if(!t.allComplete && t.waiting){
-      console.log('strike!');
-      console.log(wordlist.find("li:not(.empty)").length);
       if(wordlist.find("li:not(.empty)").length > 0) {
         $(document.body).trigger("tutorial:trigger", "after-word-elimination");
       } else {
