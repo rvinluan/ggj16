@@ -9,7 +9,7 @@ var startingHandSize = 5,
   minAllowedWordLength = 3,
   startingWords = 4,
   clearWordPoints = 10,
-  maximumTimerLength = 1000*10; //1m
+  maximumTimerLength = 1000*60; //1m
 
 //globals
 var stage = {
@@ -222,7 +222,7 @@ function resetScore() {
   scoreArea.empty();
   scoreText.text(score);
   clearInterval(scoreCheck);
-  scoreCheck = setInterval(processScoreQueue, 2000);
+  scoreCheck = setInterval(processScoreQueue, 600);
 }
 
 function resetTimer() {
