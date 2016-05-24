@@ -426,9 +426,9 @@ TUTORIAL
     padding-left .1s 0s,
     padding-right .1s 0s;
   position: relative;
-  font-family: Input;
-  font-size: 13px;
-  line-height: 1.3;
+  font-family: 'Inconsolata', Input, monospace;
+  font-size: 14px;
+  line-height: 1.2;
   text-transform: none;
   color: black;
 }
