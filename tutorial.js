@@ -27,7 +27,7 @@ var stepArray = [
   },
   {
     id: "after-play-letter-2",
-    text: "You get points for doing that.",
+    text: "You get points for doing that. Your points are displayed in the upper right.",
     cede: false
   },
   {
@@ -82,9 +82,13 @@ var stepArray = [
     cede: false
   },
   {
-    text: "You have 60 seconds. Get more time by eliminating words. Good luck, contestant.",
+    text: "You have 60 seconds. Get more time by eliminating words.",
     cede: false
   },
+  {
+    text: "The stage will now be reset with new words and letters. Good luck, contestant.",
+    cede: false
+  }
 
 
 ];
@@ -100,9 +104,10 @@ $(document.body)
   .on("tutorial:stepComplete:8", function () {
     $(this).removeClass("no-word-taking");
   })
-  .on("tutorial:stepComplete:12", function () {
+  .on("tutorial:stepComplete:11", function () {
     $(".add-word").show();
   })
   .on("tutorial:allComplete", function () {
     $(".add-letter").show();
+    resetStage();
   })
