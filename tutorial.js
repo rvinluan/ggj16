@@ -16,6 +16,7 @@ var stepArray = [
     cede: true
   },
   {
+    id: "after-play-letter",
     delay: 400,
     text: "Excellent. Hopefully you've noticed that all the 'E's have turned grey. This was as expected.",
     cede: false
@@ -25,6 +26,7 @@ var stepArray = [
     cede: true
   },
   {
+    id: "after-play-letter-2",
     text: "You get points for doing that.",
     cede: false
   },
@@ -33,6 +35,7 @@ var stepArray = [
     cede: true
   },
   {
+    id: "after-word-elimination",
     delay: 1000,
     text: "More points. How quaint.",
     cede: false
@@ -42,6 +45,7 @@ var stepArray = [
     cede: true
   },
   {
+    id: "after-take-word",
     text: "Now the letters from this word have been given to you to play. Be careful with them.",
     cede: false
   },
@@ -50,8 +54,9 @@ var stepArray = [
     cede: true
   },
   {
+    id: "after-no-words-left",
     delay: 1000,
-    text: "Oh you've run out of words. This is as expected as well. In this scenario, the appropriate reaction is to click the big plus button on the right-hand side.",
+    text: "Oh you've run out of words. This is as expected as well. In this scenario, the appropriate reaction is to click the big '+' button on the right-hand side.",
     cede: false
   },
   {
@@ -59,10 +64,11 @@ var stepArray = [
     cede: false
   },
   {
-    text: "Please enter a word here and then click the check button, or hit ENTER. Choose carefully.",
+    text: "Please enter a word using the button and then click the check button, or hit ENTER. Choose carefully.",
     cede: true
   },
   {
+    id: "after-enter-word",
     text: "Good. Remember you can take the letters of these words into your hand or eliminate them for points.",
     cede: false
   },

@@ -349,7 +349,7 @@ function addWord() {
     isAddingWord = false;
     //tutorial trigger
     if(!t.allComplete && t.waiting){
-      $(document.body).trigger("tutorial:trigger", 14);
+      $(document.body).trigger("tutorial:trigger", "after-enter-word");
     }
   }
 }
@@ -408,9 +408,9 @@ function playLetter(letterBlock) {
   //tutorial trigger if appropriate
   if(!t.allComplete && t.waiting){
     if(score == 0) {
-      $(document.body).trigger("tutorial:trigger", 3);
+      $(document.body).trigger("tutorial:trigger", "after-play-letter");
     } else {
-      $(document.body).trigger("tutorial:trigger", 5);
+      $(document.body).trigger("tutorial:trigger", "after-play-letter-2");
     }
   }
 
@@ -434,9 +434,9 @@ function scoreWord(wordElem) {
       console.log('strike!');
       console.log(wordlist.find("li:not(.empty)").length);
       if(wordlist.find("li:not(.empty)").length > 0) {
-        $(document.body).trigger("tutorial:trigger", 7);
+        $(document.body).trigger("tutorial:trigger", "after-word-elimination");
       } else {
-        $(document.body).trigger("tutorial:trigger", 11);
+        $(document.body).trigger("tutorial:trigger", "after-no-words-left");
       }
     }
   })
@@ -454,7 +454,7 @@ function takeWord(wordElem) {
     wordElem.remove();
     word_template.clone().appendTo(wordlist);
     if(!t.allComplete && t.waiting){
-      $(document.body).trigger("tutorial:trigger", 9);
+      $(document.body).trigger("tutorial:trigger", "after-take-word");
     }
   } else {
     //can't

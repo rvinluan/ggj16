@@ -27,7 +27,8 @@ function Tutorializer() {
         this.overlay.find(".message-text").text(this.steps[this.currentStep].text);
       }
     }.bind(this));
-    $(document.body).on("tutorial:trigger", function (e, stepNo) {
+    $(document.body).on("tutorial:trigger", function (e, stepId) {
+      var stepNo = this.getStepNo(stepId);
       if(this.waiting && stepNo >= this.currentStep) {
         this.currentStep = stepNo;
         this.beginStep(stepNo);
@@ -48,10 +49,19 @@ function Tutorializer() {
     }
   }
 
+  this.getStepNo = function(stepId) {
+    for(var s in this.steps) {
+      if(this.steps[s].id && this.steps[s].id == stepId) {
+        return s;
+      }
+    }
+    return -1;
+  }
+
   this.startTutorial = function() {
     this.overlay.append(this.messageTemplate);
-    this.beginStep(0);
     this.bindEvents();
+    this.beginStep(0);
   }
 
   this.openMessageContainer = function(messageText, advanceText) {
