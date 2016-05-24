@@ -18,7 +18,7 @@ var stepArray = [
   {
     id: "after-play-letter",
     delay: 500,
-    text: "Excellent. Hopefully you've noticed that all the 'E's have turned grey. This was as expected.",
+    text: "Excellent. Hopefully you've noticed that all the '#{letter}'s have turned grey. This was as expected.",
     cede: false
   },
   {

@@ -1,3 +1,14 @@
+//modified version of http://stackoverflow.com/questions/1408289/how-can-i-do-string-interpolation-in-javascript
+//using #{} instead of {}
+String.prototype.supplant = function (o) {
+    return this.replace(/#{([^{}]*)}/g,
+        function (a, b) {
+            var r = o[b];
+            return typeof r === 'string' || typeof r === 'number' ? r : a;
+        }
+    );
+};
+
 function Tutorializer() {
 
   this.allComplete = false;
@@ -27,11 +38,11 @@ function Tutorializer() {
         this.overlay.find(".message-text").text(this.steps[this.currentStep].text);
       }
     }.bind(this));
-    $(document.body).on("tutorial:trigger", function (e, stepId) {
+    $(document.body).on("tutorial:trigger", function (e, stepId, stepData) {
       var stepNo = this.getStepNo(stepId);
       if(this.waiting && stepNo >= this.currentStep) {
         this.currentStep = stepNo;
-        this.beginStep(stepNo);
+        this.beginStep(stepNo, stepData);
       }
     }.bind(this));
   }
@@ -108,7 +119,8 @@ function Tutorializer() {
     }.bind(this), 1000)
   }
 
-  this.beginStep = function(stepNo) {
+  this.beginStep = function(stepNo, stepData) {
+    console.log("sd:"+stepData);
     if(stepNo >= this.steps.length) {
       this.endTutorial();
       return;
@@ -116,6 +128,9 @@ function Tutorializer() {
     var s = this.steps[stepNo];
     var d = s.delay ? s.delay : 0;
     this.waiting = false;
+    if(s.text.indexOf("#{") !== -1) {
+      s.text = s.text.supplant(stepData); 
+    }
     setTimeout(function () {
       this.openMessageContainer(s.text, s.advanceText ? s.advanceText : "ok");
     }.bind(this), d);

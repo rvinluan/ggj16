@@ -424,7 +424,8 @@ function playLetter(letterBlock) {
   //tutorial trigger if appropriate
   if(!t.allComplete && t.waiting){
     if(score == 0) {
-      $(document.body).trigger("tutorial:trigger", "after-play-letter");
+      var playedLetter = $(letterBlock).text().toUpperCase();
+      $(document.body).trigger("tutorial:trigger", ["after-play-letter",  {letter: playedLetter}]);
     } else {
       $(document.body).trigger("tutorial:trigger", "after-play-letter-2");
     }
