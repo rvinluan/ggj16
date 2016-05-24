@@ -17,7 +17,7 @@ var stepArray = [
   },
   {
     id: "after-play-letter",
-    delay: 400,
+    delay: 500,
     text: "Excellent. Hopefully you've noticed that all the 'E's have turned grey. This was as expected.",
     cede: false
   },
@@ -36,7 +36,7 @@ var stepArray = [
   },
   {
     id: "after-word-elimination",
-    delay: 1000,
+    delay: 500,
     text: "More points. How quaint.",
     cede: false
   },
@@ -111,3 +111,21 @@ $(document.body)
     $(".add-letter").show();
     resetStage();
   })
+
+if(localStorage.getItem("tutorialComplete") == "true") {
+  $('.tutorial-reset').show();
+}
+
+$('.tutorial-reset').on('click', function () {
+  localStorage.setItem("tutorialComplete", false);
+  console.log(t);
+  t.allComplete = false;
+  currentScreen = 1;
+  resetStage();
+  $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
+  $(this).blur();
+  t.allCompleteCallback = function () {
+    resetTimer();
+  }
+  t.startTutorial();
+})

@@ -59,6 +59,9 @@ function Tutorializer() {
   }
 
   this.startTutorial = function() {
+    if(localStorage.getItem("tutorialComplete") == "true") {
+      return;
+    }
     this.overlay.append(this.messageTemplate);
     this.bindEvents();
     this.beginStep(0);
@@ -132,6 +135,7 @@ function Tutorializer() {
   }
 
   this.endTutorial = function () {
+    localStorage.setItem("tutorialComplete", true);
     this.allComplete = true;
     this.closeMessageContainer();
     $(document.body).trigger("tutorial:allComplete");

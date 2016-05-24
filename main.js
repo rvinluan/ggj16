@@ -80,10 +80,15 @@ function init() {
     currentScreen = 1;
     $(document.body).removeClass(screenList.join(" ")).addClass(screenList[currentScreen]);
     $(this).blur();
-    t.allCompleteCallback = function () {
+    if(localStorage.getItem("tutorialComplete") == "true") {
       resetTimer();
+      t.allComplete = true;
+    } else {
+      t.allCompleteCallback = function () {
+        resetTimer();
+      }
+      t.startTutorial();
     }
-    t.startTutorial();
   })
 
   //gameplay events
@@ -208,14 +213,14 @@ function resetStage() {
   }
   for(var i = 0; i < startingHandSize; i++) {
     var replacing = letterlist.find('.empty').first();
-    if(t.allComplete) {
+    if(t.allComplete || localStorage.getItem("tutorialComplete") == "true") {
       replacing.removeClass("empty").text(draw("easy"));
     } else {
       //start with the letters S-T-A-R-T
       replacing.removeClass("empty").text("start".split("")[i]);
     }
   }
-  if(t.allComplete) {
+  if(t.allComplete || localStorage.getItem("tutorialComplete") == "true") {
     loadStageRandom();
   } else {
     loadStageTutorial();
