@@ -42,6 +42,10 @@ var stepArray = [
   },
   {
     text: "You might at some point run out of letters to play. Do not be alarmed, this is as expected. When this happens, you can click one of the words.",
+    cede: false
+  },
+  {
+    text: "Please click on the word 'DIE'.",
     cede: true
   },
   {
@@ -60,11 +64,11 @@ var stepArray = [
     cede: false
   },
   {
-    text: "You can now enter any word you like. Subject to the National Language Board's Approved Diction List, obviously.",
+    text: "You can then enter any word you like in the space that appears. Subject to the National Language Board's Approved Diction List, obviously.",
     cede: false
   },
   {
-    text: "Please enter a word using the button and then click the check button, or hit ENTER. Choose carefully.",
+    text: "Please click the '+' button, enter an (approved) word and then hit ENTER. Choose carefully.",
     cede: true
   },
   {
@@ -85,3 +89,20 @@ var stepArray = [
 
 ];
 t.addSteps(stepArray);
+
+//tutorial specific off and ons
+$(document.body)
+  .on("tutorial:started", function () {
+    $(".add-word").hide();
+    $(".add-letter").hide();
+    $(this).addClass("no-word-taking");
+  })
+  .on("tutorial:stepComplete:8", function () {
+    $(this).removeClass("no-word-taking");
+  })
+  .on("tutorial:stepComplete:12", function () {
+    $(".add-word").show();
+  })
+  .on("tutorial:allComplete", function () {
+    $(".add-letter").show();
+  })

@@ -62,6 +62,7 @@ function Tutorializer() {
     this.overlay.append(this.messageTemplate);
     this.bindEvents();
     this.beginStep(0);
+    $(document.body).trigger("tutorial:started");
     $(document.body).addClass("tutorial-in-progress");
   }
 

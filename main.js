@@ -137,6 +137,9 @@ function init() {
       }
     })
     .on('mouseover', '.word', function (e) {
+      if($(document.body).hasClass("no-word-taking")) {
+        return;
+      }
       if(!$(this).hasClass('empty')) {
         takeWordIndicator.appendTo(this).show();
       }
@@ -145,6 +148,9 @@ function init() {
       takeWordIndicator.hide();
     })
     .on('click', '.word', function (e) {
+      if($(document.body).hasClass("no-word-taking")) {
+        return;
+      }
       if(!$(this).hasClass('empty')) {
         takeWord(this);
         if(isAddingWord) {
