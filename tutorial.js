@@ -74,7 +74,7 @@ var stepArray = [
   {
     delay: 500,
     id: "after-enter-word",
-    text: "Good. Remember you can take the letters of these words into your hand or eliminate them for points.",
+    text: "Good. Remember you have the choice of taking the letters of these words into your hand or eliminating the word for points.",
     cede: false
   },
   {
