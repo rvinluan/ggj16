@@ -87,7 +87,8 @@ var stepArray = [
   },
   {
     text: "The stage will now be reset with new words and letters. Good luck, contestant.",
-    cede: false
+    cede: false,
+    advanceText: "Begin"
   }
 
 
@@ -104,7 +105,7 @@ $(document.body)
   .on("tutorial:stepComplete:8", function () {
     $(this).removeClass("no-word-taking");
   })
-  .on("tutorial:stepComplete:11", function () {
+  .on("tutorial:stepComplete:12", function () {
     $(".add-word").show();
   })
   .on("tutorial:allComplete", function () {
